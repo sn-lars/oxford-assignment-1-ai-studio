@@ -4,11 +4,8 @@ import dotenv from "dotenv";
 import { GoogleGenAI, Type } from "@google/genai";
 import { createServer as createViteServer } from "vite";
 import multer from "multer";
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
-const pdf = require("pdf-parse");
-const officeParser = require("officeparser");
+import * as pdfModule from "pdf-parse";
+import officeParser from "officeparser";
 
 dotenv.config();
 
@@ -93,7 +90,7 @@ app.post("/api/upload-extract", upload.single("file"), async (req: express.Reque
 
     if (ext === "pdf") {
       try {
-        const parser = new pdf.PDFParse({ data: buffer });
+        const parser = new pdfModule.PDFParse({ data: buffer });
         rawExtracted = await parser.getText();
       } catch (err: any) {
         console.error("PDF Parsing failure:", err);
@@ -103,7 +100,7 @@ app.post("/api/upload-extract", upload.single("file"), async (req: express.Reque
       }
     } else if (ext === "docx" || ext === "doc" || ext === "pptx") {
       try {
-        rawExtracted = await officeParser.parseOffice(buffer, { fileType: ext });
+        rawExtracted = await officeParser.parseOffice(buffer, { fileType: ext as any });
       } catch (err: any) {
         console.error("Office Document parsing failure:", err);
         return res.status(422).json({
