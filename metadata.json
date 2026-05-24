@@ -1,0 +1,8 @@
+{
+  "name": "Executive Intelligence",
+  "description": "Smart, sophisticated executive assistant preparing grounded meeting reviews with source verification and risk profiling.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
